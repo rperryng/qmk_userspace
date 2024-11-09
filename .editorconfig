@@ -30,3 +30,10 @@ indent_style = tab
 
 [*.sh]
 end_of_line = lf
+
+# (Not present upstream)
+[*.jsonc]
+indent_size = 2
+
+[*.ts]
+indent_size = 2
