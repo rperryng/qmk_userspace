@@ -19,6 +19,7 @@
 
 
 #include QMK_KEYBOARD_H
+#include "oneshot.h"
 #include "version.h"
 
 #define LA_SYM MO(SYM)
@@ -129,6 +130,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                         _______ , _______ , _______ ,     _______ , _______ , _______
 )
 };
+
+bool is_oneshot_cancel_key(uint16_t keycode) {
+    switch (keycode) {
+    case LA_SYM:
+    case LA_NAV:
+        return true;
+    default:
+        return false;
+    }
+}
 
 bool is_oneshot_ignored_key(uint16_t keycode) {
     switch (keycode) {
