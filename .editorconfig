@@ -32,8 +32,5 @@ indent_style = tab
 end_of_line = lf
 
 # (Not present upstream)
-[*.jsonc]
-indent_size = 2
-
-[*.ts]
+[justfile]
 indent_size = 2
