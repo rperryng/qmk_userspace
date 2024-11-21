@@ -1,6 +1,7 @@
 {
     "userspace_version": "1.1",
     "build_targets": [
-        ["zsa/moonlander", "rperryng"]
+        ["zsa/moonlander", "rperryng"],
+        ["ergodox_ez/glow", "rperryng"],
     ]
 }
