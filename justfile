@@ -4,9 +4,10 @@ build:
   #!/usr/bin/env bash
   set -eo pipefail
 
-  qmk compile -kb ergodox_ez/glow
+  # qmk compile -kb ergodox_ez/glow
+  qmk compile -kb dasbob
 
-  if [[ is_wsl ]]; then
+  if is_wsl; then
     echo "copying files to host Windows machine"
 
     # rm -f /mnt/d/qmk/moonlander_rperryng.bin

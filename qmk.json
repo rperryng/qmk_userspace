@@ -3,5 +3,6 @@
     "build_targets": [
         ["zsa/moonlander", "rperryng"],
         ["ergodox_ez/glow", "rperryng"],
+        ["dasbob", "rperryng"],
     ]
 }
