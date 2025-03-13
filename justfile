@@ -1,5 +1,3 @@
-
-
 build:
   #!/usr/bin/env bash
   set -eo pipefail
@@ -7,7 +5,7 @@ build:
   # qmk compile -kb ergodox_ez/glow
   qmk compile -kb dasbob
 
-  if is_wsl; then
+  if just is_wsl; then
     echo "copying files to host Windows machine"
 
     # rm -f /mnt/d/qmk/moonlander_rperryng.bin
@@ -19,3 +17,11 @@ build:
     rm -f /mnt/d/qmk/dasbob_rperryng.uf2
     cp dasbob_rperryng.uf2 /mnt/d/qmk/dasbob_rperryng.uf2
   fi
+
+is_wsl:
+  #!/usr/bin/env bash
+  if [[ -f '/proc/version' ]]; then
+    grep -qi microsoft '/proc/version' && exit 0
+  fi
+
+  exit 1
