@@ -60,14 +60,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ├─────────┼─────────┼────────┼────────┼─────┤                      ├──────┼──────┼─────┼──────┼─────┤
 //    │ OS_SHFT │ OS_CTRL │ OS_ALT │ OS_CMD │     │                      │ left │ down │ up  │ rght │     │
 //    ├─────────┼─────────┼────────┼────────┼─────┤                      ├──────┼──────┼─────┼──────┼─────┤
-//    │         │ SW_CTRL │ SW_ALT │ SW_WIN │     │                      │ home │ ent  │ esc │ end  │     │
+//    │ CW_TOGG │ SW_CTRL │ SW_ALT │ SW_WIN │     │                      │ home │ ent  │ esc │ end  │     │
 //    └─────────┴─────────┴────────┼────────┼─────┼─────┐   ┌────────────┼──────┼──────┼─────┴──────┴─────┘
 //                                 │        │     │     │   │ MO(LA_NUM) │      │      │
 //                                 └────────┴─────┴─────┘   └────────────┴──────┴──────┘
 [LA_NAVI] = LAYOUT_split_3x5_3(
   _______ , _______ , _______ , _______ , _______ ,                            _______ , _______  , KC_TAB , KC_BSPC  , _______,
   OS_SHFT , OS_CTRL , OS_ALT  , OS_CMD  , _______ ,                            KC_LEFT , KC_DOWN  , KC_UP  , KC_RIGHT , _______,
-  _______ , SW_CTRL , SW_ALT  , SW_WIN  , _______ ,                            KC_HOME , KC_ENTER , KC_ESC , KC_END   , _______,
+  CW_TOGG , SW_CTRL , SW_ALT  , SW_WIN  , _______ ,                            KC_HOME , KC_ENTER , KC_ESC , KC_END   , _______,
                                 _______ , _______ , _______ ,     MO(LA_NUM) , _______ , _______
 ),
 
