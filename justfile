@@ -14,8 +14,8 @@ build:
     # rm -f /mnt/d/qmk/ez_glow.hex
     # cp ergodox_ez_glow_rperryng.hex /mnt/d/qmk/ez_glow_rperryng.hex
 
-    rm -f /mnt/d/qmk/dasbob_rperryng.uf2
-    cp dasbob_rperryng.uf2 /mnt/d/qmk/dasbob_rperryng.uf2
+    TIMESTAMP=$(date -u +"%Y-%m-%dT%H-%M-%SZ")
+    cp dasbob_rperryng.uf2 /mnt/d/qmk/dasbob_rperryng_${TIMESTAMP}.uf2
   fi
 
 is_wsl:
