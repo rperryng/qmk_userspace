@@ -23,68 +23,68 @@ enum keycodes {
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-//    ┌───┬───┬───┬─────────────┬─────────────┐                           ┌─────┬─────┬───┬───┬───┐
-//    │ q │ w │ f │      p      │      b      │                           │  j  │  l  │ u │ y │ ; │
-//    ├───┼───┼───┼─────────────┼─────────────┤                           ├─────┼─────┼───┼───┼───┤
-//    │ a │ r │ s │      t      │      g      │                           │  m  │  n  │ e │ i │ o │
-//    ├───┼───┼───┼─────────────┼─────────────┤                           ├─────┼─────┼───┼───┼───┤
-//    │ z │ x │ c │      d      │      v      │                           │  k  │  h  │ , │ . │ / │
-//    └───┴───┴───┼─────────────┼─────────────┼─────────┐   ┌─────────────┼─────┼─────┼───┴───┴───┘
-//                │ TO(LA_MOUS) │ MO(LA_NAVI) │ OS_SHFT │   │ MO(LA_SYMB) │ spc │     │
-//                └─────────────┴─────────────┴─────────┘   └─────────────┴─────┴─────┘
+//    ┌───┬───┬───┬─────────────┬────────────────────┐                                             ┌─────┬─────┬───┬───┬───┐
+//    │ q │ w │ f │      p      │         b          │                                             │  j  │  l  │ u │ y │ ; │
+//    ├───┼───┼───┼─────────────┼────────────────────┤                                             ├─────┼─────┼───┼───┼───┤
+//    │ a │ r │ s │      t      │         g          │                                             │  m  │  n  │ e │ i │ o │
+//    ├───┼───┼───┼─────────────┼────────────────────┤                                             ├─────┼─────┼───┼───┼───┤
+//    │ z │ x │ c │      d      │         v          │                                             │  k  │  h  │ , │ . │ / │
+//    └───┴───┴───┼─────────────┼────────────────────┼────────────────────┐   ┌────────────────────┼─────┼─────┼───┴───┴───┘
+//                │ TO(LA_MOUS) │ QK_TRI_LAYER_UPPER │ QK_TRI_LAYER_LOWER │   │ QK_TRI_LAYER_LOWER │ spc │     │
+//                └─────────────┴────────────────────┴────────────────────┘   └────────────────────┴─────┴─────┘
 [LA_BASE] = LAYOUT_split_3x5_3(
-  KC_Q , KC_W , KC_F , KC_P        , KC_B        ,                             KC_J   , KC_L    , KC_U     , KC_Y   , KC_SCLN,
-  KC_A , KC_R , KC_S , KC_T        , KC_G        ,                             KC_M   , KC_N    , KC_E     , KC_I   , KC_O   ,
-  KC_Z , KC_X , KC_C , KC_D        , KC_V        ,                             KC_K   , KC_H    , KC_COMMA , KC_DOT , KC_SLSH,
-                       TO(LA_MOUS) , MO(LA_NAVI) , OS_SHFT ,     MO(LA_SYMB) , KC_SPC , _______
+  KC_Q , KC_W , KC_F , KC_P        , KC_B               ,                                               KC_J   , KC_L    , KC_U     , KC_Y   , KC_SCLN,
+  KC_A , KC_R , KC_S , KC_T        , KC_G               ,                                               KC_M   , KC_N    , KC_E     , KC_I   , KC_O   ,
+  KC_Z , KC_X , KC_C , KC_D        , KC_V               ,                                               KC_K   , KC_H    , KC_COMMA , KC_DOT , KC_SLSH,
+                       TO(LA_MOUS) , QK_TRI_LAYER_UPPER , QK_TRI_LAYER_LOWER ,     QK_TRI_LAYER_LOWER , KC_SPC , _______
 ),
 
-//    ┌─────┬───┬───┬─────┬────────────┐               ┌─────┬────────┬────────┬─────────┬─────────┐
-//    │     │ | │ - │  =  │     +      │               │     │        │        │         │         │
-//    ├─────┼───┼───┼─────┼────────────┤               ├─────┼────────┼────────┼─────────┼─────────┤
-//    │  (  │ ) │ { │  }  │     _      │               │     │ OS_CMD │ OS_ALT │ OS_CTRL │ OS_SHFT │
-//    ├─────┼───┼───┼─────┼────────────┤               ├─────┼────────┼────────┼─────────┼─────────┤
-//    │  [  │ ] │ < │  >  │            │               │  ~  │   `    │   '    │    "    │    \    │
-//    └─────┴───┴───┼─────┼────────────┼─────┐   ┌─────┼─────┼────────┼────────┴─────────┴─────────┘
-//                  │     │ MO(LA_NUM) │     │   │     │     │        │
-//                  └─────┴────────────┴─────┘   └─────┴─────┴────────┘
+//    ┌─────┬───┬───┬─────┬─────┐               ┌─────┬────────┬────────┬─────────┬─────────┐
+//    │     │ | │ - │  =  │  +  │               │     │        │        │         │         │
+//    ├─────┼───┼───┼─────┼─────┤               ├─────┼────────┼────────┼─────────┼─────────┤
+//    │  (  │ ) │ { │  }  │  _  │               │     │ OS_CMD │ OS_ALT │ OS_CTRL │ OS_SHFT │
+//    ├─────┼───┼───┼─────┼─────┤               ├─────┼────────┼────────┼─────────┼─────────┤
+//    │  [  │ ] │ < │  >  │     │               │  ~  │   `    │   '    │    "    │    \    │
+//    └─────┴───┴───┼─────┼─────┼─────┐   ┌─────┼─────┼────────┼────────┴─────────┴─────────┘
+//                  │     │     │     │   │     │     │        │
+//                  └─────┴─────┴─────┘   └─────┴─────┴────────┘
 [LA_SYMB] = LAYOUT_split_3x5_3(
-  _______ , KC_PIPE , KC_MINS , KC_EQL  , KC_PLUS    ,                         _______ , _______ , _______ , _______ , _______,
-  KC_LPRN , KC_RPRN , KC_LCBR , KC_RCBR , KC_UNDS    ,                         _______ , OS_CMD  , OS_ALT  , OS_CTRL , OS_SHFT,
-  KC_LBRC , KC_RBRC , KC_LT   , KC_GT   , _______    ,                         KC_TILD , KC_GRV  , KC_QUOT , KC_DQT  , KC_BSLS,
-                                _______ , MO(LA_NUM) , _______ ,     _______ , _______ , _______
+  _______ , KC_PIPE , KC_MINS , KC_EQL  , KC_PLUS ,                         _______ , _______ , _______ , _______ , _______,
+  KC_LPRN , KC_RPRN , KC_LCBR , KC_RCBR , KC_UNDS ,                         _______ , OS_CMD  , OS_ALT  , OS_CTRL , OS_SHFT,
+  KC_LBRC , KC_RBRC , KC_LT   , KC_GT   , _______ ,                         KC_TILD , KC_GRV  , KC_QUOT , KC_DQT  , KC_BSLS,
+                                _______ , _______ , _______ ,     _______ , _______ , _______
 ),
 
-//    ┌─────────┬─────────┬────────┬────────┬─────┐                      ┌──────┬──────┬─────┬──────┬─────┐
-//    │         │         │        │        │     │                      │      │      │ tab │ bspc │     │
-//    ├─────────┼─────────┼────────┼────────┼─────┤                      ├──────┼──────┼─────┼──────┼─────┤
-//    │ OS_SHFT │ OS_CTRL │ OS_ALT │ OS_CMD │     │                      │ left │ down │ up  │ rght │     │
-//    ├─────────┼─────────┼────────┼────────┼─────┤                      ├──────┼──────┼─────┼──────┼─────┤
-//    │ CW_TOGG │ SW_CTRL │ SW_ALT │ SW_WIN │     │                      │ home │ ent  │ esc │ end  │     │
-//    └─────────┴─────────┴────────┼────────┼─────┼─────┐   ┌────────────┼──────┼──────┼─────┴──────┴─────┘
-//                                 │        │     │     │   │ MO(LA_NUM) │      │      │
-//                                 └────────┴─────┴─────┘   └────────────┴──────┴──────┘
+//    ┌─────────┬─────────┬────────┬────────┬─────┐               ┌──────┬──────┬─────┬──────┬─────┐
+//    │         │         │        │        │     │               │      │      │ tab │ bspc │     │
+//    ├─────────┼─────────┼────────┼────────┼─────┤               ├──────┼──────┼─────┼──────┼─────┤
+//    │ OS_SHFT │ OS_CTRL │ OS_ALT │ OS_CMD │     │               │ left │ down │ up  │ rght │     │
+//    ├─────────┼─────────┼────────┼────────┼─────┤               ├──────┼──────┼─────┼──────┼─────┤
+//    │ CW_TOGG │ SW_CTRL │ SW_ALT │ SW_WIN │     │               │ home │ ent  │ esc │ end  │     │
+//    └─────────┴─────────┴────────┼────────┼─────┼─────┐   ┌─────┼──────┼──────┼─────┴──────┴─────┘
+//                                 │        │     │     │   │     │      │      │
+//                                 └────────┴─────┴─────┘   └─────┴──────┴──────┘
 [LA_NAVI] = LAYOUT_split_3x5_3(
-  _______ , _______ , _______ , _______ , _______ ,                            _______ , _______  , KC_TAB , KC_BSPC  , _______,
-  OS_SHFT , OS_CTRL , OS_ALT  , OS_CMD  , _______ ,                            KC_LEFT , KC_DOWN  , KC_UP  , KC_RIGHT , _______,
-  CW_TOGG , SW_CTRL , SW_ALT  , SW_WIN  , _______ ,                            KC_HOME , KC_ENTER , KC_ESC , KC_END   , _______,
-                                _______ , _______ , _______ ,     MO(LA_NUM) , _______ , _______
+  _______ , _______ , _______ , _______ , _______ ,                         _______ , _______  , KC_TAB , KC_BSPC  , _______,
+  OS_SHFT , OS_CTRL , OS_ALT  , OS_CMD  , _______ ,                         KC_LEFT , KC_DOWN  , KC_UP  , KC_RIGHT , _______,
+  CW_TOGG , SW_CTRL , SW_ALT  , SW_WIN  , _______ ,                         KC_HOME , KC_ENTER , KC_ESC , KC_END   , _______,
+                                _______ , _______ , _______ ,     _______ , _______ , _______
 ),
 
-//    ┌────┬─────────┬─────────┬─────────┬───────────────────┐                       ┌─────┬─────────┬─────────┬─────────┬────┐
-//    │ no │   no    │  MS_UP  │   no    │        no         │                       │ no  │   no    │   no    │   no    │ no │
-//    ├────┼─────────┼─────────┼─────────┼───────────────────┤                       ├─────┼─────────┼─────────┼─────────┼────┤
-//    │ no │ MS_LEFT │ MS_DOWN │ MS_RGHT │    TO(LA_BASE)    │                       │ no  │ MS_BTN1 │ MS_BTN2 │   no    │ no │
-//    ├────┼─────────┼─────────┼─────────┼───────────────────┤                       ├─────┼─────────┼─────────┼─────────┼────┤
-//    │ no │   no    │ MS_BTN2 │ MS_BTN1 │        no         │                       │ no  │ MS_ACL2 │ MS_ACL1 │ MS_ACL0 │ no │
-//    └────┴─────────┴─────────┼─────────┼───────────────────┼─────────────┐   ┌─────┼─────┼─────────┼─────────┴─────────┴────┘
-//                             │         │ MO(LA_MOUS_SCROL) │ MO(LA_NAVI) │   │     │     │         │
-//                             └─────────┴───────────────────┴─────────────┘   └─────┴─────┴─────────┘
+//    ┌────┬─────────┬─────────┬─────────┬───────────────────┐               ┌─────┬─────────┬─────────┬─────────┬────┐
+//    │ no │   no    │  MS_UP  │   no    │        no         │               │ no  │   no    │   no    │   no    │ no │
+//    ├────┼─────────┼─────────┼─────────┼───────────────────┤               ├─────┼─────────┼─────────┼─────────┼────┤
+//    │ no │ MS_LEFT │ MS_DOWN │ MS_RGHT │    TO(LA_BASE)    │               │ no  │ MS_BTN1 │ MS_BTN2 │   no    │ no │
+//    ├────┼─────────┼─────────┼─────────┼───────────────────┤               ├─────┼─────────┼─────────┼─────────┼────┤
+//    │ no │   no    │ MS_BTN2 │ MS_BTN1 │        no         │               │ no  │ MS_ACL2 │ MS_ACL1 │ MS_ACL0 │ no │
+//    └────┴─────────┴─────────┼─────────┼───────────────────┼─────┐   ┌─────┼─────┼─────────┼─────────┴─────────┴────┘
+//                             │         │ MO(LA_MOUS_SCROL) │     │   │     │     │         │
+//                             └─────────┴───────────────────┴─────┘   └─────┴─────┴─────────┘
 [LA_MOUS] = LAYOUT_split_3x5_3(
-  XXXXXXX , XXXXXXX , MS_UP   , XXXXXXX , XXXXXXX           ,                             XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX,
-  XXXXXXX , MS_LEFT , MS_DOWN , MS_RGHT , TO(LA_BASE)       ,                             XXXXXXX , MS_BTN1 , MS_BTN2 , XXXXXXX , XXXXXXX,
-  XXXXXXX , XXXXXXX , MS_BTN2 , MS_BTN1 , XXXXXXX           ,                             XXXXXXX , MS_ACL2 , MS_ACL1 , MS_ACL0 , XXXXXXX,
-                                _______ , MO(LA_MOUS_SCROL) , MO(LA_NAVI) ,     _______ , _______ , _______
+  XXXXXXX , XXXXXXX , MS_UP   , XXXXXXX , XXXXXXX           ,                         XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX,
+  XXXXXXX , MS_LEFT , MS_DOWN , MS_RGHT , TO(LA_BASE)       ,                         XXXXXXX , MS_BTN1 , MS_BTN2 , XXXXXXX , XXXXXXX,
+  XXXXXXX , XXXXXXX , MS_BTN2 , MS_BTN1 , XXXXXXX           ,                         XXXXXXX , MS_ACL2 , MS_ACL1 , MS_ACL0 , XXXXXXX,
+                                _______ , MO(LA_MOUS_SCROL) , _______ ,     _______ , _______ , _______
 ),
 
 //    ┌────┬────┬────┬─────┬─────┐               ┌─────────┬─────────┬─────────┬─────────┬────┐
@@ -122,8 +122,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 bool is_oneshot_cancel_key(uint16_t keycode) {
     switch (keycode) {
-    case MO(LA_NAVI):
-    case MO(LA_SYMB):
+    case QK_TRI_LAYER_UPPER:
+    case QK_TRI_LAYER_LOWER:
         return true;
     default:
         return false;
@@ -132,8 +132,8 @@ bool is_oneshot_cancel_key(uint16_t keycode) {
 
 bool is_oneshot_ignored_key(uint16_t keycode) {
     switch (keycode) {
-    case MO(LA_SYMB):
-    case MO(LA_NAVI):
+    case QK_TRI_LAYER_LOWER:
+    case QK_TRI_LAYER_UPPER:
     case KC_LSFT:
     case OS_SHFT:
     case OS_CTRL:
@@ -188,4 +188,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     );
 
     return true;
+}
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    return update_tri_layer_state(state, LA_SYMB, LA_NAVI, LA_NUM);
 }
