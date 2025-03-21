@@ -43,8 +43,8 @@ bool update_reverse_swapper(
         } else {
             // When releasing trigger, release shift+tab if any swapper was active
             if (*sw_ctrl_active || *sw_alt_active || *sw_win_active) {
-                unregister_code(KC_TAB);
                 unregister_code(KC_LSFT);
+                unregister_code(KC_TAB);
             }
         }
         return false; // Don't process this key further
