@@ -24,20 +24,20 @@ enum keycodes {
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-//    ┌───┬───┬───┬─────────────┬────────────────────┐                                             ┌─────┬─────┬───┬───┬───┐
-//    │ q │ w │ f │      p      │         b          │                                             │  j  │  l  │ u │ y │ ; │
-//    ├───┼───┼───┼─────────────┼────────────────────┤                                             ├─────┼─────┼───┼───┼───┤
-//    │ a │ r │ s │      t      │         g          │                                             │  m  │  n  │ e │ i │ o │
-//    ├───┼───┼───┼─────────────┼────────────────────┤                                             ├─────┼─────┼───┼───┼───┤
-//    │ z │ x │ c │      d      │         v          │                                             │  k  │  h  │ , │ . │ / │
-//    └───┴───┴───┼─────────────┼────────────────────┼────────────────────┐   ┌────────────────────┼─────┼─────┼───┴───┴───┘
-//                │ TO(LA_MOUS) │ QK_TRI_LAYER_UPPER │ QK_TRI_LAYER_LOWER │   │ QK_TRI_LAYER_LOWER │ spc │     │
-//                └─────────────┴────────────────────┴────────────────────┘   └────────────────────┴─────┴─────┘
+//    ┌───┬───┬───┬─────────────┬─────────┐                       ┌─────┬─────┬───┬───┬───┐
+//    │ q │ w │ f │      p      │    b    │                       │  j  │  l  │ u │ y │ ; │
+//    ├───┼───┼───┼─────────────┼─────────┤                       ├─────┼─────┼───┼───┼───┤
+//    │ a │ r │ s │      t      │    g    │                       │  m  │  n  │ e │ i │ o │
+//    ├───┼───┼───┼─────────────┼─────────┤                       ├─────┼─────┼───┼───┼───┤
+//    │ z │ x │ c │      d      │    v    │                       │  k  │  h  │ , │ . │ / │
+//    └───┴───┴───┼─────────────┼─────────┼─────────┐   ┌─────────┼─────┼─────┼───┴───┴───┘
+//                │ TO(LA_MOUS) │ TL_UPPR │ TL_LOWR │   │ TL_LOWR │ spc │     │
+//                └─────────────┴─────────┴─────────┘   └─────────┴─────┴─────┘
 [LA_BASE] = LAYOUT_split_3x5_3(
-  KC_Q , KC_W , KC_F , KC_P        , KC_B               ,                                               KC_J   , KC_L    , KC_U     , KC_Y   , KC_SCLN,
-  KC_A , KC_R , KC_S , KC_T        , KC_G               ,                                               KC_M   , KC_N    , KC_E     , KC_I   , KC_O   ,
-  KC_Z , KC_X , KC_C , KC_D        , KC_V               ,                                               KC_K   , KC_H    , KC_COMMA , KC_DOT , KC_SLSH,
-                       TO(LA_MOUS) , QK_TRI_LAYER_UPPER , QK_TRI_LAYER_LOWER ,     QK_TRI_LAYER_LOWER , KC_SPC , _______
+  KC_Q , KC_W , KC_F , KC_P        , KC_B    ,                         KC_J   , KC_L    , KC_U     , KC_Y   , KC_SCLN,
+  KC_A , KC_R , KC_S , KC_T        , KC_G    ,                         KC_M   , KC_N    , KC_E     , KC_I   , KC_O   ,
+  KC_Z , KC_X , KC_C , KC_D        , KC_V    ,                         KC_K   , KC_H    , KC_COMMA , KC_DOT , KC_SLSH,
+                       TO(LA_MOUS) , TL_UPPR , TL_LOWR ,     TL_LOWR , KC_SPC , _______
 ),
 
 //    ┌─────┬───┬───┬─────┬─────┐               ┌─────┬────────┬────────┬─────────┬─────────┐
@@ -56,19 +56,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 _______ , _______ , _______ ,     _______ , _______ , _______
 ),
 
-//    ┌─────────┬─────────┬────────┬────────┬─────┐               ┌──────┬──────┬─────┬──────┬─────┐
-//    │         │         │        │        │     │               │      │      │ tab │ bspc │     │
-//    ├─────────┼─────────┼────────┼────────┼─────┤               ├──────┼──────┼─────┼──────┼─────┤
-//    │ OS_SHFT │ OS_CTRL │ OS_ALT │ OS_CMD │     │               │ left │ down │ up  │ rght │     │
-//    ├─────────┼─────────┼────────┼────────┼─────┤               ├──────┼──────┼─────┼──────┼─────┤
-//    │ CW_TOGG │ SW_CTRL │ SW_ALT │ SW_WIN │     │               │ home │ ent  │ esc │ end  │     │
-//    └─────────┴─────────┴────────┼────────┼─────┼─────┐   ┌─────┼──────┼──────┼─────┴──────┴─────┘
-//                                 │        │     │     │   │     │      │      │
-//                                 └────────┴─────┴─────┘   └─────┴──────┴──────┘
+//    ┌─────────┬─────────┬────────┬────────┬─────┐               ┌──────┬─────────┬─────┬──────┬─────┐
+//    │         │         │        │        │     │               │      │ CW_TOGG │ tab │ bspc │     │
+//    ├─────────┼─────────┼────────┼────────┼─────┤               ├──────┼─────────┼─────┼──────┼─────┤
+//    │ OS_SHFT │ OS_CTRL │ OS_ALT │ OS_CMD │     │               │ left │  down   │ up  │ rght │     │
+//    ├─────────┼─────────┼────────┼────────┼─────┤               ├──────┼─────────┼─────┼──────┼─────┤
+//    │ SW_REV  │ SW_CTRL │ SW_ALT │ SW_WIN │     │               │ home │   ent   │ esc │ end  │     │
+//    └─────────┴─────────┴────────┼────────┼─────┼─────┐   ┌─────┼──────┼─────────┼─────┴──────┴─────┘
+//                                 │        │     │     │   │     │      │         │
+//                                 └────────┴─────┴─────┘   └─────┴──────┴─────────┘
 [LA_NAVI] = LAYOUT_split_3x5_3(
-  _______ , _______ , _______ , _______ , _______ ,                         _______ , _______  , KC_TAB , KC_BSPC  , _______,
+  _______ , _______ , _______ , _______ , _______ ,                         _______ , CW_TOGG  , KC_TAB , KC_BSPC  , _______,
   OS_SHFT , OS_CTRL , OS_ALT  , OS_CMD  , _______ ,                         KC_LEFT , KC_DOWN  , KC_UP  , KC_RIGHT , _______,
-  SW_REV , SW_CTRL , SW_ALT  , SW_WIN  , _______ ,                         KC_HOME , KC_ENTER , KC_ESC , KC_END   , _______,
+  SW_REV  , SW_CTRL , SW_ALT  , SW_WIN  , _______ ,                         KC_HOME , KC_ENTER , KC_ESC , KC_END   , _______,
                                 _______ , _______ , _______ ,     _______ , _______ , _______
 ),
 
@@ -123,8 +123,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 bool is_oneshot_cancel_key(uint16_t keycode) {
     switch (keycode) {
-    case QK_TRI_LAYER_UPPER:
-    case QK_TRI_LAYER_LOWER:
+    case TL_LOWR:
+    case TL_UPPR:
         return true;
     default:
         return false;
@@ -133,8 +133,8 @@ bool is_oneshot_cancel_key(uint16_t keycode) {
 
 bool is_oneshot_ignored_key(uint16_t keycode) {
     switch (keycode) {
-    case QK_TRI_LAYER_LOWER:
-    case QK_TRI_LAYER_UPPER:
+    case TL_LOWR:
+    case TL_UPPR:
     case KC_LSFT:
     case OS_SHFT:
     case OS_CTRL:
@@ -157,28 +157,16 @@ oneshot_state os_alt_state = os_up_unqueued;
 oneshot_state os_cmd_state = os_up_unqueued;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    // Handle the reverse/shift modifier
-    if (keycode == SW_REV) {
-        if (record->event.pressed) {
-            // If any swapper is active, immediately send shift+tab
-            if (sw_ctrl_active) {
-                register_code(KC_LSFT);
-                register_code(KC_TAB);
-            } else if (sw_alt_active) {
-                register_code(KC_LSFT);
-                register_code(KC_TAB);
-            } else if (sw_win_active) {
-                register_code(KC_LSFT);
-                register_code(KC_TAB);
-            }
-        } else {
-            // When releasing SW_REV, release shift+tab
-            if (sw_ctrl_active || sw_alt_active || sw_win_active) {
-                unregister_code(KC_TAB);
-                unregister_code(KC_LSFT);
-            }
-        }
-        return false;  // Don't process this key further
+    // Handle the reverse/shift modifier using the swapper module
+    if (!update_reverse_swapper(
+        &sw_ctrl_active,
+        &sw_alt_active,
+        &sw_win_active,
+        SW_REV,
+        keycode,
+        record
+    )) {
+        return false;
     }
 
     // Update swapper state

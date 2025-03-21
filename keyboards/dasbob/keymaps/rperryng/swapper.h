@@ -18,3 +18,14 @@ void update_swapper(
     uint16_t keycode,
     keyrecord_t *record
 );
+
+// Handles the reverse swapper functionality that works in conjunction with other swappers
+// Returns true if the key should be processed further, false if it should be ignored
+bool update_reverse_swapper(
+    bool *sw_ctrl_active,
+    bool *sw_alt_active,
+    bool *sw_win_active,
+    uint16_t trigger,
+    uint16_t keycode,
+    keyrecord_t *record
+);

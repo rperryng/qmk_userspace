@@ -25,3 +25,30 @@ void update_swapper(
     }
 }
 
+bool update_reverse_swapper(
+    bool *sw_ctrl_active,
+    bool *sw_alt_active,
+    bool *sw_win_active,
+    uint16_t trigger,
+    uint16_t keycode,
+    keyrecord_t *record
+) {
+    if (keycode == trigger) {
+        if (record->event.pressed) {
+            // If any swapper is active, immediately send shift+tab
+            if (*sw_ctrl_active || *sw_alt_active || *sw_win_active) {
+                register_code(KC_LSFT);
+                register_code(KC_TAB);
+            }
+        } else {
+            // When releasing trigger, release shift+tab if any swapper was active
+            if (*sw_ctrl_active || *sw_alt_active || *sw_win_active) {
+                unregister_code(KC_TAB);
+                unregister_code(KC_LSFT);
+            }
+        }
+        return false; // Don't process this key further
+    }
+    return true; // Process this key further
+}
+
