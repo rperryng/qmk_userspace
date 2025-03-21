@@ -17,6 +17,7 @@ enum keycodes {
     OS_ALT,
     OS_CMD,
     OS_CNCL,
+    OS_HYPER,
 
     SW_WIN,
     SW_CTRL,
@@ -168,7 +169,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     )) {
         return false;
     }
-
     // Update swapper state
     update_swapper(
         &sw_ctrl_active, KC_LCTL, KC_TAB, SW_CTRL,
@@ -182,6 +182,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         &sw_win_active, KC_LGUI, KC_TAB, SW_WIN,
         keycode, record
     );
+
+    // Handle hyper key to queue up all modifiers at once
+    if (update_oneshot_hyper(
+        &os_shft_state,
+        &os_ctrl_state,
+        &os_alt_state,
+        &os_cmd_state,
+        OS_HYPER,
+        keycode,
+        record
+    )) {
+        return true;
+    }
+
 
     // Update one-shot state
     update_oneshot(

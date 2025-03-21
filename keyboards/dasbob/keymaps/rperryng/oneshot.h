@@ -31,6 +31,17 @@ bool update_oneshot_layer(
     keyrecord_t *record
 );
 
+// Handle hyper key to queue up all modifiers at once
+bool update_oneshot_hyper(
+    oneshot_state *shft_state,
+    oneshot_state *ctrl_state,
+    oneshot_state *alt_state,
+    oneshot_state *cmd_state,
+    uint16_t trigger,
+    uint16_t keycode,
+    keyrecord_t *record
+);
+
 // To be implemented by the consumer. Layers one shot implementation needs to
 // know which keys are used as oneshot mods
 bool is_oneshot_mod_key(

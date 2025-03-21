@@ -178,3 +178,41 @@ bool update_oneshot_layer(
     }
     return true;
 }
+
+bool update_oneshot_hyper(
+    oneshot_state *shft_state,
+    oneshot_state *ctrl_state,
+    oneshot_state *alt_state,
+    oneshot_state *cmd_state,
+    uint16_t trigger,
+    uint16_t keycode,
+    keyrecord_t *record
+) {
+    if (keycode == trigger) {
+        if (record->event.pressed) {
+            // Queue up all modifiers at once
+            if (*shft_state == os_up_unqueued) {
+                register_code(KC_LSFT);
+                *shft_state = os_up_queued;
+                dprintf("hyper: shift queued\n");
+            }
+            if (*ctrl_state == os_up_unqueued) {
+                register_code(KC_LCTL);
+                *ctrl_state = os_up_queued;
+                dprintf("hyper: ctrl queued\n");
+            }
+            if (*alt_state == os_up_unqueued) {
+                register_code(KC_LALT);
+                *alt_state = os_up_queued;
+                dprintf("hyper: alt queued\n");
+            }
+            if (*cmd_state == os_up_unqueued) {
+                register_code(KC_LCMD);
+                *cmd_state = os_up_queued;
+                dprintf("hyper: cmd queued\n");
+            }
+        }
+        return true;
+    }
+    return false;
+}
