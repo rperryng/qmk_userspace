@@ -20,6 +20,7 @@ enum keycodes {
     SW_WIN,
     SW_CTRL,
     SW_ALT,
+    SW_REV,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -67,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [LA_NAVI] = LAYOUT_split_3x5_3(
   _______ , _______ , _______ , _______ , _______ ,                         _______ , _______  , KC_TAB , KC_BSPC  , _______,
   OS_SHFT , OS_CTRL , OS_ALT  , OS_CMD  , _______ ,                         KC_LEFT , KC_DOWN  , KC_UP  , KC_RIGHT , _______,
-  CW_TOGG , SW_CTRL , SW_ALT  , SW_WIN  , _______ ,                         KC_HOME , KC_ENTER , KC_ESC , KC_END   , _______,
+  SW_REV , SW_CTRL , SW_ALT  , SW_WIN  , _______ ,                         KC_HOME , KC_ENTER , KC_ESC , KC_END   , _______,
                                 _______ , _______ , _______ ,     _______ , _______ , _______
 ),
 
@@ -148,6 +149,7 @@ bool is_oneshot_ignored_key(uint16_t keycode) {
 bool sw_ctrl_active = false;
 bool sw_alt_active = false;
 bool sw_win_active = false;
+bool sw_rev_active = false;
 
 oneshot_state os_shft_state = os_up_unqueued;
 oneshot_state os_ctrl_state = os_up_unqueued;
@@ -155,6 +157,30 @@ oneshot_state os_alt_state = os_up_unqueued;
 oneshot_state os_cmd_state = os_up_unqueued;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    // Handle the reverse/shift modifier
+    if (keycode == SW_REV) {
+        if (record->event.pressed) {
+            // If any swapper is active, immediately send shift+tab
+            if (sw_ctrl_active) {
+                register_code(KC_LSFT);
+                register_code(KC_TAB);
+            } else if (sw_alt_active) {
+                register_code(KC_LSFT);
+                register_code(KC_TAB);
+            } else if (sw_win_active) {
+                register_code(KC_LSFT);
+                register_code(KC_TAB);
+            }
+        } else {
+            // When releasing SW_REV, release shift+tab
+            if (sw_ctrl_active || sw_alt_active || sw_win_active) {
+                unregister_code(KC_TAB);
+                unregister_code(KC_LSFT);
+            }
+        }
+        return false;  // Don't process this key further
+    }
+
     // Update swapper state
     update_swapper(
         &sw_ctrl_active, KC_LCTL, KC_TAB, SW_CTRL,
