@@ -23,6 +23,7 @@ enum keycodes {
     SW_CTRL,
     SW_ALT,
     SW_REV,
+    SW_WIN_GRAVE,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -58,20 +59,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 _______ , _______ , _______ ,     _______ , _______ , _______
 ),
 
-//    ┌─────────┬─────────┬────────┬────────┬─────────┐               ┌──────┬─────────┬─────┬──────┬─────┐
-//    │         │         │        │        │         │               │      │ CW_TOGG │ tab │ bspc │     │
-//    ├─────────┼─────────┼────────┼────────┼─────────┤               ├──────┼─────────┼─────┼──────┼─────┤
-//    │ OS_SHFT │ OS_CTRL │ OS_ALT │ OS_CMD │ OS_CNCL │               │ left │  down   │ up  │ rght │     │
-//    ├─────────┼─────────┼────────┼────────┼─────────┤               ├──────┼─────────┼─────┼──────┼─────┤
-//    │ SW_REV  │ SW_CTRL │ SW_ALT │ SW_WIN │         │               │ home │   ent   │ esc │ end  │     │
-//    └─────────┴─────────┴────────┼────────┼─────────┼─────┐   ┌─────┼──────┼─────────┼─────┴──────┴─────┘
-//                                 │        │         │     │   │     │      │         │
-//                                 └────────┴─────────┴─────┘   └─────┴──────┴─────────┘
+//    ┌─────────┬─────────┬────────┬────────┬──────────────┐               ┌──────┬─────────┬─────┬──────┬─────┐
+//    │         │         │        │        │              │               │      │ CW_TOGG │ tab │ bspc │     │
+//    ├─────────┼─────────┼────────┼────────┼──────────────┤               ├──────┼─────────┼─────┼──────┼─────┤
+//    │ OS_SHFT │ OS_CTRL │ OS_ALT │ OS_CMD │   OS_CNCL    │               │ left │  down   │ up  │ rght │     │
+//    ├─────────┼─────────┼────────┼────────┼──────────────┤               ├──────┼─────────┼─────┼──────┼─────┤
+//    │ SW_REV  │ SW_CTRL │ SW_ALT │ SW_WIN │ SW_WIN_GRAVE │               │ home │   ent   │ esc │ end  │     │
+//    └─────────┴─────────┴────────┼────────┼──────────────┼─────┐   ┌─────┼──────┼─────────┼─────┴──────┴─────┘
+//                                 │        │              │     │   │     │      │         │
+//                                 └────────┴──────────────┴─────┘   └─────┴──────┴─────────┘
 [LA_NAVI] = LAYOUT_split_3x5_3(
-  _______ , _______ , _______ , _______ , _______ ,                         _______ , CW_TOGG  , KC_TAB , KC_BSPC  , _______,
-  OS_SHFT , OS_CTRL , OS_ALT  , OS_CMD  , OS_CNCL ,                         KC_LEFT , KC_DOWN  , KC_UP  , KC_RIGHT , _______,
-  SW_REV  , SW_CTRL , SW_ALT  , SW_WIN  , _______ ,                         KC_HOME , KC_ENTER , KC_ESC , KC_END   , _______,
-                                _______ , _______ , _______ ,     _______ , _______ , _______
+  _______ , _______ , _______ , _______ , _______      ,                         _______ , CW_TOGG  , KC_TAB , KC_BSPC  , _______,
+  OS_SHFT , OS_CTRL , OS_ALT  , OS_CMD  , OS_CNCL      ,                         KC_LEFT , KC_DOWN  , KC_UP  , KC_RIGHT , _______,
+  SW_REV  , SW_CTRL , SW_ALT  , SW_WIN  , SW_WIN_GRAVE ,                         KC_HOME , KC_ENTER , KC_ESC , KC_END   , _______,
+                                _______ , _______      , _______ ,     _______ , _______ , _______
 ),
 
 //    ┌────┬─────────┬─────────┬─────────┬───────────────────┐               ┌─────┬─────────┬─────────┬─────────┬────┐
@@ -151,6 +152,7 @@ bool sw_ctrl_active = false;
 bool sw_alt_active = false;
 bool sw_win_active = false;
 bool sw_rev_active = false;
+bool sw_win_grave_active = false;
 
 oneshot_state os_shft_state = os_up_unqueued;
 oneshot_state os_ctrl_state = os_up_unqueued;
@@ -180,6 +182,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     );
     update_swapper(
         &sw_win_active, KC_LGUI, KC_TAB, SW_WIN,
+        keycode, record
+    );
+    update_swapper(
+        &sw_win_grave_active, KC_LGUI, KC_GRAVE, SW_WIN_GRAVE,
         keycode, record
     );
 
