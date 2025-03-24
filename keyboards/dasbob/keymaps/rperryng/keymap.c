@@ -4,11 +4,17 @@
 
 enum layers {
     LA_BASE,
+
+    // tri-layers, which must be defined in this order / together...?
     LA_SYMB,
+    LA_SYMB_ALT,
     LA_NAVI,
+    LA_NUM,
+    LA_NUM_ALT,
+
+    // other layers
     LA_MOUS,
     LA_MOUS_SCROL,
-    LA_NUM,
 };
 
 enum keycodes {
@@ -27,20 +33,20 @@ enum keycodes {
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-//    ┌───┬───┬───┬─────────────┬─────────┐                       ┌─────┬──────────┬───┬───┬───┐
-//    │ q │ w │ f │      p      │    b    │                       │  j  │    l     │ u │ y │ ; │
-//    ├───┼───┼───┼─────────────┼─────────┤                       ├─────┼──────────┼───┼───┼───┤
-//    │ a │ r │ s │      t      │    g    │                       │  m  │    n     │ e │ i │ o │
-//    ├───┼───┼───┼─────────────┼─────────┤                       ├─────┼──────────┼───┼───┼───┤
-//    │ z │ x │ c │      d      │    v    │                       │  k  │    h     │ , │ . │ / │
-//    └───┴───┴───┼─────────────┼─────────┼─────────┐   ┌─────────┼─────┼──────────┼───┴───┴───┘
-//                │ TO(LA_MOUS) │ TL_UPPR │ TL_LOWR │   │ TL_LOWR │ spc │ OS_HYPER │
-//                └─────────────┴─────────┴─────────┘   └─────────┴─────┴──────────┘
+//    ┌───┬───┬───┬─────────────┬─────────────┐                       ┌─────┬──────────┬───┬───┬───┐
+//    │ q │ w │ f │      p      │      b      │                       │  j  │    l     │ u │ y │ ; │
+//    ├───┼───┼───┼─────────────┼─────────────┤                       ├─────┼──────────┼───┼───┼───┤
+//    │ a │ r │ s │      t      │      g      │                       │  m  │    n     │ e │ i │ o │
+//    ├───┼───┼───┼─────────────┼─────────────┤                       ├─────┼──────────┼───┼───┼───┤
+//    │ z │ x │ c │      d      │      v      │                       │  k  │    h     │ , │ . │ / │
+//    └───┴───┴───┼─────────────┼─────────────┼─────┐   ┌─────────────┼─────┼──────────┼───┴───┴───┘
+//                │ TO(LA_MOUS) │ MO(LA_NAVI) │     │   │ MO(LA_SYMB) │ spc │ OS_HYPER │
+//                └─────────────┴─────────────┴─────┘   └─────────────┴─────┴──────────┘
 [LA_BASE] = LAYOUT_split_3x5_3(
-  KC_Q , KC_W , KC_F , KC_P        , KC_B    ,                         KC_J   , KC_L     , KC_U     , KC_Y   , KC_SCLN,
-  KC_A , KC_R , KC_S , KC_T        , KC_G    ,                         KC_M   , KC_N     , KC_E     , KC_I   , KC_O   ,
-  KC_Z , KC_X , KC_C , KC_D        , KC_V    ,                         KC_K   , KC_H     , KC_COMMA , KC_DOT , KC_SLSH,
-                       TO(LA_MOUS) , TL_UPPR , TL_LOWR ,     TL_LOWR , KC_SPC , OS_HYPER
+  KC_Q , KC_W , KC_F , KC_P        , KC_B        ,                             KC_J   , KC_L     , KC_U     , KC_Y   , KC_SCLN,
+  KC_A , KC_R , KC_S , KC_T        , KC_G        ,                             KC_M   , KC_N     , KC_E     , KC_I   , KC_O   ,
+  KC_Z , KC_X , KC_C , KC_D        , KC_V        ,                             KC_K   , KC_H     , KC_COMMA , KC_DOT , KC_SLSH,
+                       TO(LA_MOUS) , MO(LA_NAVI) , _______ ,     MO(LA_SYMB) , KC_SPC , OS_HYPER
 ),
 
 //    ┌─────┬─────┬─────┬─────┬─────┐               ┌─────────┬────────┬────────┬─────────┬─────────┐
@@ -54,6 +60,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                      └─────┴─────┴─────┘   └─────┴─────────┴────────┘
 [LA_SYMB] = LAYOUT_split_3x5_3(
   _______ , _______ , _______ , _______ , _______ ,                         KC_PIPE , KC_EQL  , KC_PLUS , KC_MINS , _______,
+  KC_LPRN , KC_RPRN , KC_LCBR , KC_RCBR , KC_UNDS ,                         OS_CNCL , OS_CMD  , OS_ALT  , OS_CTRL , OS_SHFT,
+  KC_LBRC , KC_RBRC , KC_LT   , KC_GT   , _______ ,                         KC_TILD , KC_GRV  , KC_QUOT , KC_DQT  , KC_BSLS,
+                                _______ , _______ , _______ ,     _______ , _______ , _______
+),
+
+//    ┌───┬───┬───┬─────┬─────┐               ┌─────────┬────────┬────────┬─────────┬─────────┐
+//    │ # │ @ │ ! │ spc │     │               │    |    │   =    │   +    │    -    │         │
+//    ├───┼───┼───┼─────┼─────┤               ├─────────┼────────┼────────┼─────────┼─────────┤
+//    │ ( │ ) │ { │  }  │  _  │               │ OS_CNCL │ OS_CMD │ OS_ALT │ OS_CTRL │ OS_SHFT │
+//    ├───┼───┼───┼─────┼─────┤               ├─────────┼────────┼────────┼─────────┼─────────┤
+//    │ [ │ ] │ < │  >  │     │               │    ~    │   `    │   '    │    "    │    \    │
+//    └───┴───┴───┼─────┼─────┼─────┐   ┌─────┼─────────┼────────┼────────┴─────────┴─────────┘
+//                │     │     │     │   │     │         │        │
+//                └─────┴─────┴─────┘   └─────┴─────────┴────────┘
+[LA_SYMB_ALT] = LAYOUT_split_3x5_3(
+  KC_HASH , KC_AT   , KC_EXLM , KC_SPC  , _______ ,                         KC_PIPE , KC_EQL  , KC_PLUS , KC_MINS , _______,
   KC_LPRN , KC_RPRN , KC_LCBR , KC_RCBR , KC_UNDS ,                         OS_CNCL , OS_CMD  , OS_ALT  , OS_CTRL , OS_SHFT,
   KC_LBRC , KC_RBRC , KC_LT   , KC_GT   , _______ ,                         KC_TILD , KC_GRV  , KC_QUOT , KC_DQT  , KC_BSLS,
                                 _______ , _______ , _______ ,     _______ , _______ , _______
@@ -121,6 +143,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_EXLM , KC_AT   , KC_HASH , KC_DLR  , KC_PERC ,                         KC_CIRC , KC_AMPR , KC_ASTR , _______ , _______,
   _______ , _______ , _______ , _______ , _______ ,                         _______ , _______ , _______ , _______ , _______,
                                 _______ , _______ , _______ ,     _______ , _______ , _______
+),
+
+//    ┌─────┬─────┬─────┬─────┬─────┐               ┌─────┬─────┬───┬───┬─────┐
+//    │     │     │     │     │     │               │     │  =  │ + │ - │     │
+//    ├─────┼─────┼─────┼─────┼─────┤               ├─────┼─────┼───┼───┼─────┤
+//    │  6  │  4  │  0  │  2  │  _  │               │     │  3  │ 1 │ 5 │  7  │
+//    ├─────┼─────┼─────┼─────┼─────┤               ├─────┼─────┼───┼───┼─────┤
+//    │     │     │     │  8  │     │               │     │  9  │ , │ . │  /  │
+//    └─────┴─────┴─────┼─────┼─────┼─────┐   ┌─────┼─────┼─────┼───┴───┴─────┘
+//                      │     │     │     │   │     │     │     │
+//                      └─────┴─────┴─────┘   └─────┴─────┴─────┘
+[LA_NUM_ALT] = LAYOUT_split_3x5_3(
+  _______ , _______ , _______ , _______ , _______ ,                         _______ , KC_EQL  , KC_PLUS  , KC_MINS , _______ ,
+  KC_6    , KC_4    , KC_0    , KC_2    , KC_UNDS ,                         _______ , KC_3    , KC_1     , KC_5    , KC_7    ,
+  _______ , _______ , _______ , KC_8    , _______ ,                         _______ , KC_9    , KC_COMMA , KC_DOT  , KC_SLASH,
+                                _______ , _______ , _______ ,     _______ , _______ , _______
 )
 };
 
@@ -135,8 +173,8 @@ bool is_oneshot_cancel_key(uint16_t keycode) {
 
 bool is_oneshot_ignored_key(uint16_t keycode) {
     switch (keycode) {
-    case TL_LOWR:
-    case TL_UPPR:
+    case MO(LA_SYMB):
+    case MO(LA_NAVI):
     case KC_LSFT:
     case OS_SHFT:
     case OS_CTRL:
@@ -202,7 +240,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return true;
     }
 
-
     // Update one-shot state
     update_oneshot(
         &os_shft_state, KC_LSFT, OS_SHFT,
@@ -226,4 +263,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     return update_tri_layer_state(state, LA_SYMB, LA_NAVI, LA_NUM);
+    // return update_tri_layer_state(state, LA_SYMB, LA_NAVI, LA_NUM_ALT);
+    // return update_tri_layer_state(state, LA_SYMB_ALT, LA_NAVI, LA_NUM_ALT);
 }
