@@ -1,17 +1,19 @@
 #include QMK_KEYBOARD_H
 #include "oneshot.h"
 #include "swapper.h"
+#include "trilayer_sets.h"
 
 enum layers {
     LA_BASE,
 
+    // Trilayer Sets
     LA_SYMB,
     LA_SYMB_ALT,
     LA_NAVI,
     LA_NUM,
     LA_NUM_ALT,
 
-    // other layers
+    // Mouse
     LA_MOUS,
     LA_MOUS_SCROL,
 };
@@ -35,36 +37,6 @@ enum keycodes {
     TLS_UPPER,
 };
 
-// New enum for trilayer sets
-enum trilayer_sets {
-    TRI_NORMAL,    // SYMB + NAVI = NUM
-    TRI_FULL_ALT,  // SYMB_ALT + NAVI = NUM_ALT
-    TRI_SET_COUNT  // Used for cycling through sets
-};
-
-// Track the active trilayer set
-uint8_t active_trilayer_set = TRI_NORMAL;
-
-// Define a struct to hold our trilayer configuration
-typedef struct {
-    uint8_t lower_layer;
-    uint8_t upper_layer;
-    uint8_t adjust_layer;
-} trilayer_config_t;
-
-// Define configurations for each trilayer set
-const trilayer_config_t trilayer_configs[] = {
-    [TRI_NORMAL] = {
-        .lower_layer = LA_NAVI,
-        .upper_layer = LA_SYMB,
-        .adjust_layer = LA_NUM
-    },
-    [TRI_FULL_ALT] = {
-        .lower_layer = LA_NAVI,
-        .upper_layer = LA_SYMB_ALT,
-        .adjust_layer = LA_NUM_ALT
-    }
-};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ┌───┬───┬───┬─────────────┬───────────┐                                   ┌─────┬──────────┬───┬───┬───┐
@@ -179,23 +151,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 _______ , _______ , _______ ,     _______ , _______ , _______
 ),
 
-//    ┌─────┬─────┬─────┬─────┬─────┐               ┌─────┬─────┬───┬───┬───┐
-//    │  ^  │  $  │ spc │  @  │     │               │     │  #  │ ! │ % │ & │
-//    ├─────┼─────┼─────┼─────┼─────┤               ├─────┼─────┼───┼───┼───┤
-//    │  6  │  4  │  0  │  2  │  _  │               │     │  3  │ 1 │ 5 │ 7 │
-//    ├─────┼─────┼─────┼─────┼─────┤               ├─────┼─────┼───┼───┼───┤
-//    │     │     │  *  │  8  │     │               │     │  9  │ , │ . │ / │
-//    └─────┴─────┴─────┼─────┼─────┼─────┐   ┌─────┼─────┼─────┼───┴───┴───┘
-//                      │     │     │     │   │     │     │     │
-//                      └─────┴─────┴─────┘   └─────┴─────┴─────┘
+//    ┌─────┬───┬─────┬─────┬─────┐               ┌─────┬─────┬───┬───┬───┐
+//    │  ^  │ $ │ spc │  @  │     │               │     │  #  │ ! │ % │ & │
+//    ├─────┼───┼─────┼─────┼─────┤               ├─────┼─────┼───┼───┼───┤
+//    │  6  │ 4 │  0  │  2  │  _  │               │     │  3  │ 1 │ 5 │ 7 │
+//    ├─────┼───┼─────┼─────┼─────┤               ├─────┼─────┼───┼───┼───┤
+//    │     │ - │  *  │  8  │     │               │     │  9  │ , │ . │ / │
+//    └─────┴───┴─────┼─────┼─────┼─────┐   ┌─────┼─────┼─────┼───┴───┴───┘
+//                    │     │     │     │   │     │     │     │
+//                    └─────┴─────┴─────┘   └─────┴─────┴─────┘
 [LA_NUM_ALT] = LAYOUT_split_3x5_3(
   KC_CIRC , KC_DLR  , KC_SPC  , KC_AT   , _______ ,                         _______ , KC_HASH , KC_EXLM  , KC_PERC , KC_AMPR ,
   KC_6    , KC_4    , KC_0    , KC_2    , KC_UNDS ,                         _______ , KC_3    , KC_1     , KC_5    , KC_7    ,
-  _______ , _______ , KC_ASTR , KC_8    , _______ ,                         _______ , KC_9    , KC_COMMA , KC_DOT  , KC_SLASH,
+  _______ , KC_MINS , KC_ASTR , KC_8    , _______ ,                         _______ , KC_9    , KC_COMMA , KC_DOT  , KC_SLASH,
                                 _______ , _______ , _______ ,     _______ , _______ , _______
 )
 };
 
+// ===============================================================
+// Custom Oneshot
+// ===============================================================
 bool is_oneshot_cancel_key(uint16_t keycode) {
     switch (keycode) {
     case OS_CNCL:
@@ -220,46 +195,66 @@ bool is_oneshot_ignored_key(uint16_t keycode) {
     }
 }
 
+oneshot_state os_shft_state = os_up_unqueued;
+oneshot_state os_ctrl_state = os_up_unqueued;
+oneshot_state os_alt_state = os_up_unqueued;
+oneshot_state os_cmd_state = os_up_unqueued;
+
+// ===============================================================
+// Custom Swapper
+// ===============================================================
 bool sw_ctrl_active = false;
 bool sw_alt_active = false;
 bool sw_win_active = false;
 bool sw_rev_active = false;
 bool sw_win_grave_active = false;
 
-oneshot_state os_shft_state = os_up_unqueued;
-oneshot_state os_ctrl_state = os_up_unqueued;
-oneshot_state os_alt_state = os_up_unqueued;
-oneshot_state os_cmd_state = os_up_unqueued;
+// ===============================================================
+// Custom Trilayer State
+// ===============================================================
+enum trilayer_sets {
+    TRI_NORMAL,
+    TRI_FULL_ALT,
+    TRI_SET_COUNT
+};
 
+uint8_t active_trilayer_set = TRI_NORMAL;
+
+// Implementation of trilayer_sets interface
+uint8_t get_trilayer_set_count(void) {
+    return TRI_SET_COUNT;
+}
+
+const trilayer_config_t trilayer_configs[] = {
+    [TRI_NORMAL] = {
+        .lower_layer = LA_NAVI,
+        .upper_layer = LA_SYMB_ALT,
+        .adjust_layer = LA_NUM_ALT
+    },
+    [TRI_FULL_ALT] = {
+        .lower_layer = LA_NAVI,
+        .upper_layer = LA_SYMB,
+        .adjust_layer = LA_NUM
+    }
+};
+
+const trilayer_config_t* get_trilayer_config(uint8_t index) {
+    return &trilayer_configs[index];
+}
+
+// ===============================================================
+// QMK Hooks
+// ===============================================================
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    // Handle TLS_LOWER / TLS_UPPER
-    if (keycode == TLS_LOWER) {
-        if (record->event.pressed) {
-            layer_on(trilayer_configs[active_trilayer_set].lower_layer);
-        } else {
-            // Turn off all possible lower layers
-            for (uint8_t i = 0; i < TRI_SET_COUNT; i++) {
-                layer_off(trilayer_configs[i].lower_layer);
-            }
-        }
-    }
-
-    if (keycode == TLS_UPPER) {
-        if (record->event.pressed) {
-            layer_on(trilayer_configs[active_trilayer_set].upper_layer);
-        } else {
-            // Turn off all possible upper layers
-            for (uint8_t i = 0; i < TRI_SET_COUNT; i++) {
-                layer_off(trilayer_configs[i].upper_layer);
-            }
-        }
-    }
-
-    // Handle trilayer set cycling
-    if (keycode == TRILAYER_SET_NEXT && record->event.pressed) {
-        active_trilayer_set = (active_trilayer_set + 1) % TRI_SET_COUNT;
-        return false;
-    }
+    // Handle trilayer functionality
+    process_trilayer_keys(
+        &active_trilayer_set,
+        keycode,
+        record,
+        TRILAYER_SET_NEXT,
+        TLS_LOWER,
+        TLS_UPPER
+    );
 
     // Handle the reverse/shift modifier using the swapper module
     if (!update_reverse_swapper(
@@ -325,7 +320,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    // Use the trilayer configuration from our lookup table
-    const trilayer_config_t *config = &trilayer_configs[active_trilayer_set];
-    return update_tri_layer_state(state, config->upper_layer, config->lower_layer, config->adjust_layer);
+    // Use the trilayer implementation
+    return update_trilayer_state(state, active_trilayer_set);
 }
