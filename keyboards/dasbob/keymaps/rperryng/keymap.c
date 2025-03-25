@@ -237,17 +237,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (record->event.pressed) {
             layer_on(trilayer_configs[active_trilayer_set].lower_layer);
         } else {
-            // Turn off the lower layer
-            layer_off(LA_NAVI);
+            // Turn off all possible lower layers
+            for (uint8_t i = 0; i < TRI_SET_COUNT; i++) {
+                layer_off(trilayer_configs[i].lower_layer);
+            }
         }
     }
+
     if (keycode == TLS_UPPER) {
         if (record->event.pressed) {
             layer_on(trilayer_configs[active_trilayer_set].upper_layer);
         } else {
-            // Turn off all possible upper layers to be safe
-            layer_off(LA_SYMB);
-            layer_off(LA_SYMB_ALT);
+            // Turn off all possible upper layers
+            for (uint8_t i = 0; i < TRI_SET_COUNT; i++) {
+                layer_off(trilayer_configs[i].upper_layer);
+            }
         }
     }
 
