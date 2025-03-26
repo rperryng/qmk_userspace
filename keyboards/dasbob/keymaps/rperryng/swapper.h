@@ -6,7 +6,7 @@
 
 // Implements cmd-tab like behaviour on a single key. On first tap of trigger
 // cmdish is held and tabish is tapped -- cmdish then remains held until the
-// specified layer is deactivated.
+// specified layer key is released.
 //
 // This behaviour is useful for more than just cmd-tab, hence: cmdish, tabish.
 void update_swapper(
@@ -14,8 +14,7 @@ void update_swapper(
     uint16_t cmdish,
     uint16_t tabish,
     uint16_t trigger,
-    uint16_t layer_key,   // The key that activates the layer
-    uint8_t check_layer,  // The layer to check for active status
+    uint16_t layer_key,
     uint16_t keycode,
     keyrecord_t *record
 );

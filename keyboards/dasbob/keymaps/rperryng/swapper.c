@@ -1,13 +1,12 @@
 #include "swapper.h"
-#include "keymap.h"  // Include the keymap to get layer information
+#include "keymap.h"
 
 void update_swapper(
     bool *active,
     uint16_t cmdish,
     uint16_t tabish,
     uint16_t trigger,
-    uint16_t layer_key,   // The key that activates the layer
-    uint8_t check_layer,  // The layer to check for active status
+    uint16_t layer_key,
     uint16_t keycode,
     keyrecord_t *record
 ) {
@@ -28,12 +27,6 @@ void update_swapper(
             unregister_code(cmdish);
             *active = false;
         }
-    }
-
-    // Additionally, if we're not in the layer anymore, make sure to release the modifier
-    if (!layer_state_is(check_layer) && *active) {
-        unregister_code(cmdish);
-        *active = false;
     }
 }
 
