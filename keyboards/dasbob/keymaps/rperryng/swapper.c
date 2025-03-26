@@ -1,4 +1,5 @@
 #include "swapper.h"
+#include "keymap.h"  // Include the keymap to get layer information
 
 void update_swapper(
     bool *active,
@@ -17,9 +18,18 @@ void update_swapper(
             register_code(tabish);
         } else {
             unregister_code(tabish);
-            // Don't unregister cmdish until some other key is hit or released.
+            // Don't unregister cmdish until we leave the layer
         }
-    } else if (*active) {
+    } else if (keycode == TLS_LOWER && !record->event.pressed) {
+        // When we release the layer key, release the switcher's modifier if it's active
+        if (*active) {
+            unregister_code(cmdish);
+            *active = false;
+        }
+    }
+
+    // Additionally, if we're not in the layer anymore, make sure to release the modifier
+    if (!layer_state_is(LA_NAVI) && *active) {
         unregister_code(cmdish);
         *active = false;
     }

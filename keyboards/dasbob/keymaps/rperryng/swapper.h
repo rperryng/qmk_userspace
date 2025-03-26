@@ -1,6 +1,8 @@
 #pragma once
 
+#include "quantum.h"
 #include QMK_KEYBOARD_H
+#include "keymap.h"      // Include keymap definitions
 
 // Implements cmd-tab like behaviour on a single key. On first tap of trigger
 // cmdish is held and tabish is tapped -- cmdish then remains held until some

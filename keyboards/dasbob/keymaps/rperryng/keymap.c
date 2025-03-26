@@ -2,41 +2,7 @@
 #include "oneshot.h"
 #include "swapper.h"
 #include "trilayer_sets.h"
-
-enum layers {
-    LA_BASE,
-
-    // Trilayer Sets
-    LA_SYMB,
-    LA_SYMB_ALT,
-    LA_NAVI,
-    LA_NUM,
-    LA_NUM_ALT,
-
-    // Mouse
-    LA_MOUS,
-    LA_MOUS_SCROL,
-};
-
-enum keycodes {
-    OS_SHFT = SAFE_RANGE,
-    OS_CTRL,
-    OS_ALT,
-    OS_CMD,
-    OS_CNCL,
-    OS_HYPER,
-
-    SW_WIN,
-    SW_CTRL,
-    SW_ALT,
-    SW_REV,
-    SW_WIN_GRAVE,
-
-    TRILAYER_SET_NEXT,
-    TLS_LOWER,
-    TLS_UPPER,
-};
-
+#include "keymap.h"
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ┌───┬───┬───┬─────────────┬───────────┐                                   ┌─────┬──────────┬───┬───┬───┐
@@ -267,7 +233,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     )) {
         return false;
     }
-    // Update swapper state
+
     update_swapper(
         &sw_ctrl_active, KC_LCTL, KC_TAB, SW_CTRL,
         keycode, record
