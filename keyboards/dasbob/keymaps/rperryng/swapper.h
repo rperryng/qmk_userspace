@@ -5,11 +5,8 @@
 #include "keymap.h"      // Include keymap definitions
 
 // Implements cmd-tab like behaviour on a single key. On first tap of trigger
-// cmdish is held and tabish is tapped -- cmdish then remains held until some
-// other key is hit or released. For example:
-//
-//     trigger, trigger, a -> cmd down, tab, tab, cmd up, a
-//     nav down, trigger, nav up -> nav down, cmd down, tab, cmd up, nav up
+// cmdish is held and tabish is tapped -- cmdish then remains held until the
+// specified layer is deactivated.
 //
 // This behaviour is useful for more than just cmd-tab, hence: cmdish, tabish.
 void update_swapper(
@@ -17,6 +14,8 @@ void update_swapper(
     uint16_t cmdish,
     uint16_t tabish,
     uint16_t trigger,
+    uint16_t layer_key,   // The key that activates the layer
+    uint8_t check_layer,  // The layer to check for active status
     uint16_t keycode,
     keyrecord_t *record
 );

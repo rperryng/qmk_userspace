@@ -236,18 +236,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     update_swapper(
         &sw_ctrl_active, KC_LCTL, KC_TAB, SW_CTRL,
+        TLS_LOWER, LA_NAVI,
         keycode, record
     );
     update_swapper(
         &sw_alt_active, KC_LALT, KC_TAB, SW_ALT,
+        TLS_LOWER, LA_NAVI,
         keycode, record
     );
     update_swapper(
         &sw_win_active, KC_LGUI, KC_TAB, SW_WIN,
+        TLS_LOWER, LA_NAVI,
         keycode, record
     );
     update_swapper(
         &sw_win_grave_active, KC_LGUI, KC_GRAVE, SW_WIN_GRAVE,
+        TLS_LOWER, LA_NAVI,
         keycode, record
     );
 

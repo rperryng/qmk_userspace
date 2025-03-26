@@ -6,6 +6,8 @@ void update_swapper(
     uint16_t cmdish,
     uint16_t tabish,
     uint16_t trigger,
+    uint16_t layer_key,   // The key that activates the layer
+    uint8_t check_layer,  // The layer to check for active status
     uint16_t keycode,
     keyrecord_t *record
 ) {
@@ -20,7 +22,7 @@ void update_swapper(
             unregister_code(tabish);
             // Don't unregister cmdish until we leave the layer
         }
-    } else if (keycode == TLS_LOWER && !record->event.pressed) {
+    } else if (keycode == layer_key && !record->event.pressed) {
         // When we release the layer key, release the switcher's modifier if it's active
         if (*active) {
             unregister_code(cmdish);
@@ -29,7 +31,7 @@ void update_swapper(
     }
 
     // Additionally, if we're not in the layer anymore, make sure to release the modifier
-    if (!layer_state_is(LA_NAVI) && *active) {
+    if (!layer_state_is(check_layer) && *active) {
         unregister_code(cmdish);
         *active = false;
     }
