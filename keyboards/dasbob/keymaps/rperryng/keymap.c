@@ -215,21 +215,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // Handle trilayer functionality
     process_trilayer_keys(
         &active_trilayer_set,
-        keycode,
-        record,
-        TRILAYER_SET_NEXT,
-        TLS_LOWER,
-        TLS_UPPER
+        TRILAYER_SET_NEXT, TLS_LOWER, TLS_UPPER,
+        keycode, record
     );
 
     // Handle the reverse/shift modifier using the swapper module
     if (!update_reverse_swapper(
-        &sw_ctrl_active,
-        &sw_alt_active,
-        &sw_win_active,
-        SW_REV,
-        keycode,
-        record
+        &sw_ctrl_active, &sw_alt_active, &sw_win_active,
+        SW_REV, keycode, record
     )) {
         return false;
     }

@@ -12,11 +12,8 @@ layer_state_t update_trilayer_state(
 // Process trilayer-related keycodes
 bool process_trilayer_keys(
     uint8_t *active_set,
-    uint16_t keycode,
-    keyrecord_t *record,
-    uint16_t cycle_keycode,
-    uint16_t lower_keycode,
-    uint16_t upper_keycode
+    uint16_t cycle_keycode, uint16_t lower_keycode, uint16_t upper_keycode,
+    uint16_t keycode, keyrecord_t *record
 ) {
     uint8_t set_count = get_trilayer_set_count();
 
