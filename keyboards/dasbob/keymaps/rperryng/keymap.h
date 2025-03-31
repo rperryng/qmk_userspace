@@ -19,6 +19,9 @@ enum layers {
 
     // Function Keys
     LA_FUNC,
+
+    // Media
+    LA_MEDIA,
 };
 
 // Custom keycode enums (matching those in keymap.c)
