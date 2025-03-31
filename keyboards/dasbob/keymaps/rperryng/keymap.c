@@ -117,20 +117,36 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 _______ , _______ , _______ ,     _______ , _______ , _______
 ),
 
-//    ┌─────┬───┬─────┬─────┬─────┐               ┌─────┬─────┬───┬───┬───┐
-//    │  ^  │ $ │ spc │  @  │     │               │     │  #  │ ! │ % │ & │
-//    ├─────┼───┼─────┼─────┼─────┤               ├─────┼─────┼───┼───┼───┤
-//    │  6  │ 4 │  0  │  2  │  _  │               │     │  3  │ 1 │ 5 │ 7 │
-//    ├─────┼───┼─────┼─────┼─────┤               ├─────┼─────┼───┼───┼───┤
-//    │     │ - │  *  │  8  │     │               │     │  9  │ , │ . │ / │
-//    └─────┴───┴─────┼─────┼─────┼─────┐   ┌─────┼─────┼─────┼───┴───┴───┘
-//                    │     │     │     │   │     │     │     │
-//                    └─────┴─────┴─────┘   └─────┴─────┴─────┘
+//    ┌─────┬───┬─────┬─────┬─────┐               ┌──────────┬─────┬───┬───┬───┐
+//    │  ^  │ $ │ spc │  @  │     │               │          │  #  │ ! │ % │ & │
+//    ├─────┼───┼─────┼─────┼─────┤               ├──────────┼─────┼───┼───┼───┤
+//    │  6  │ 4 │  0  │  2  │  _  │               │          │  3  │ 1 │ 5 │ 7 │
+//    ├─────┼───┼─────┼─────┼─────┤               ├──────────┼─────┼───┼───┼───┤
+//    │     │ - │  *  │  8  │     │               │ OSL_FUNC │  9  │ , │ . │ / │
+//    └─────┴───┴─────┼─────┼─────┼─────┐   ┌─────┼──────────┼─────┼───┴───┴───┘
+//                    │     │     │     │   │     │          │     │
+//                    └─────┴─────┴─────┘   └─────┴──────────┴─────┘
 [LA_NUM_ALT] = LAYOUT_split_3x5_3(
-  KC_CIRC , KC_DLR  , KC_SPC  , KC_AT   , _______ ,                         _______ , KC_HASH , KC_EXLM  , KC_PERC , KC_AMPR ,
-  KC_6    , KC_4    , KC_0    , KC_2    , KC_UNDS ,                         _______ , KC_3    , KC_1     , KC_5    , KC_7    ,
-  _______ , KC_MINS , KC_ASTR , KC_8    , _______ ,                         _______ , KC_9    , KC_COMMA , KC_DOT  , KC_SLASH,
-                                _______ , _______ , _______ ,     _______ , _______ , _______
+  KC_CIRC , KC_DLR  , KC_SPC  , KC_AT   , _______ ,                         _______  , KC_HASH , KC_EXLM  , KC_PERC , KC_AMPR ,
+  KC_6    , KC_4    , KC_0    , KC_2    , KC_UNDS ,                         _______  , KC_3    , KC_1     , KC_5    , KC_7    ,
+  _______ , KC_MINS , KC_ASTR , KC_8    , _______ ,                         OSL_FUNC , KC_9    , KC_COMMA , KC_DOT  , KC_SLASH,
+                                _______ , _______ , _______ ,     _______ , _______  , _______
+),
+
+//    ┌─────┬─────┬─────┬─────┬────┐             ┌────┬─────┬─────┬────┬────┐
+//    │ f16 │ f14 │ f10 │ f12 │ no │             │ no │ f13 │ f11 │ no │ no │
+//    ├─────┼─────┼─────┼─────┼────┤             ├────┼─────┼─────┼────┼────┤
+//    │ f6  │ f4  │ no  │ f2  │ no │             │ no │ f3  │ f1  │ f5 │ f7 │
+//    ├─────┼─────┼─────┼─────┼────┤             ├────┼─────┼─────┼────┼────┤
+//    │ no  │ no  │ no  │ f8  │ no │             │ no │ f9  │ no  │ no │ no │
+//    └─────┴─────┴─────┼─────┼────┼────┐   ┌────┼────┼─────┼─────┴────┴────┘
+//                      │ no  │ no │ no │   │ no │ no │ no  │
+//                      └─────┴────┴────┘   └────┴────┴─────┘
+[LA_FUNC] = LAYOUT_split_3x5_3(
+  KC_F16  , KC_F14  , KC_F10  , KC_F12  , XXXXXXX ,                         XXXXXXX , KC_F13  , KC_F11  , XXXXXXX , XXXXXXX,
+  KC_F6   , KC_F4   , XXXXXXX , KC_F2   , XXXXXXX ,                         XXXXXXX , KC_F3   , KC_F1   , KC_F5   , KC_F7  ,
+  XXXXXXX , XXXXXXX , XXXXXXX , KC_F8   , XXXXXXX ,                         XXXXXXX , KC_F9   , XXXXXXX , XXXXXXX , XXXXXXX,
+                                XXXXXXX , XXXXXXX , XXXXXXX ,     XXXXXXX , XXXXXXX , XXXXXXX
 )
 };
 
@@ -140,6 +156,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 bool is_oneshot_cancel_key(uint16_t keycode) {
     switch (keycode) {
     case OS_CNCL:
+        return true;
+    default:
+        return false;
+    }
+}
+
+bool is_oneshot_layer_cancel_key(uint16_t keycode) {
+    switch (keycode) {
+    case OS_CNCL:
+        return true;
+    default:
+        return false;
+    }
+}
+
+bool is_oneshot_mod_key(uint16_t keycode) {
+    switch (keycode) {
+    case OS_SHFT:
+    case OS_CTRL:
+    case OS_ALT:
+    case OS_CMD:
         return true;
     default:
         return false;
@@ -165,6 +202,7 @@ oneshot_state os_shft_state = os_up_unqueued;
 oneshot_state os_ctrl_state = os_up_unqueued;
 oneshot_state os_alt_state = os_up_unqueued;
 oneshot_state os_cmd_state = os_up_unqueued;
+oneshot_state os_func_state = os_up_unqueued;
 
 // ===============================================================
 // Custom Swapper
@@ -274,6 +312,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         &os_cmd_state, KC_LCMD, OS_CMD,
         keycode, record
     );
+
+    bool handled = true;
+    handled = update_oneshot_layer(
+        &os_func_state, LA_FUNC, OSL_FUNC,
+        keycode, record
+    ) & handled;
+
+    if (!handled) {
+        return false;
+    }
 
     return true;
 }

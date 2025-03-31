@@ -16,16 +16,23 @@ enum layers {
     // Mouse
     LA_MOUS,
     LA_MOUS_SCROL,
+
+    // Function Keys
+    LA_FUNC,
 };
 
 // Custom keycode enums (matching those in keymap.c)
 enum keycodes {
+    // oneshot mods
     OS_SHFT = SAFE_RANGE,
     OS_CTRL,
     OS_ALT,
     OS_CMD,
     OS_CNCL,
     OS_HYPER,
+
+    // oneshot layers
+    OSL_FUNC,
 
     SW_WIN,
     SW_CTRL,
