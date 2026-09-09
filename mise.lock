@@ -1,0 +1,16 @@
+[[tools."github:xpack-dev-tools/arm-none-eabi-gcc-xpack"]]
+version = "12.3.1-1.2"
+backend = "github:xpack-dev-tools/arm-none-eabi-gcc-xpack"
+"platforms.linux-arm64" = { url = "https://github.com/xpack-dev-tools/arm-none-eabi-gcc-xpack/releases/download/v12.3.1-1.2/xpack-arm-none-eabi-gcc-12.3.1-1.2-linux-arm64.tar.gz", url_api = "https://api.github.com/repos/xpack-dev-tools/arm-none-eabi-gcc-xpack/releases/assets/127146952"}
+"platforms.linux-x64" = { url = "https://github.com/xpack-dev-tools/arm-none-eabi-gcc-xpack/releases/download/v12.3.1-1.2/xpack-arm-none-eabi-gcc-12.3.1-1.2-linux-x64.tar.gz", url_api = "https://api.github.com/repos/xpack-dev-tools/arm-none-eabi-gcc-xpack/releases/assets/127146931"}
+"platforms.macos-arm64" = { url = "https://github.com/xpack-dev-tools/arm-none-eabi-gcc-xpack/releases/download/v12.3.1-1.2/xpack-arm-none-eabi-gcc-12.3.1-1.2-darwin-arm64.tar.gz", url_api = "https://api.github.com/repos/xpack-dev-tools/arm-none-eabi-gcc-xpack/releases/assets/127147026"}
+"platforms.macos-x64" = { url = "https://github.com/xpack-dev-tools/arm-none-eabi-gcc-xpack/releases/download/v12.3.1-1.2/xpack-arm-none-eabi-gcc-12.3.1-1.2-darwin-x64.tar.gz", url_api = "https://api.github.com/repos/xpack-dev-tools/arm-none-eabi-gcc-xpack/releases/assets/127146995"}
+"platforms.windows-x64" = { url = "https://github.com/xpack-dev-tools/arm-none-eabi-gcc-xpack/releases/download/v12.3.1-1.2/xpack-arm-none-eabi-gcc-12.3.1-1.2-win32-x64.zip", url_api = "https://api.github.com/repos/xpack-dev-tools/arm-none-eabi-gcc-xpack/releases/assets/127146913"}
+
+[[tools."pipx:qmk"]]
+version = "1.2.0"
+backend = "pipx:qmk"
+
+[[tools.python]]
+version = "3.12.9"
+backend = "core:python"

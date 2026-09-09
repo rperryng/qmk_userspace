@@ -1,0 +1,66 @@
+# Reproducible build environment for this userspace.
+#
+# Everything needed to compile firmware lives here -- no Homebrew required.
+# `mise install` once, then `mise run build`.
+
+[tools]
+python = "3.12"
+
+# ARM toolchain for RP2040 boards (keyball39, dasbob) and STM32 (moonlander).
+# xPack ships prebuilt toolchains as GitHub release archives, so this is a
+# download-and-extract, not a source build.
+#
+# NOTE: bin_path embeds the version because the archive's top-level directory
+# is version-named. Bump both together.
+"github:xpack-dev-tools/arm-none-eabi-gcc-xpack" = { version = "12.3.1-1.2", bin_path = "xpack-arm-none-eabi-gcc-12.3.1-1.2/bin", extract_all = true }
+
+# The qmk CLI from PyPI. Installs wheels, unlike the Homebrew formula which
+# builds Pillow and its image libraries from source and takes ~30 minutes.
+"pipx:qmk" = "1.2.0"
+
+[env]
+# Sibling checkout holding QMK itself plus the vendored out-of-tree boards
+# (keyboards/keyball, keyboards/dasbob).
+QMK_HOME = "{{config_root}}/../qmk_firmware"
+QMK_USERSPACE = "{{config_root}}"
+
+# QMK_HOME is a relative sibling path, so it is only correct if qmk_firmware is
+# actually checked out next to this repo. mise cannot assert that in [env], so
+# every build task gates on this check instead of failing later with a confusing
+# make error.
+[tasks.doctor]
+description = "Verify QMK_HOME points at a usable qmk_firmware checkout"
+quiet = true
+run = """
+set -e
+fail() { printf '\nmise: %s\n\n' "$1" >&2; exit 1; }
+
+[ -d "$QMK_HOME" ] || fail "QMK_HOME does not exist: $QMK_HOME
+  qmk_firmware must be checked out next to this repo:
+    git clone git@github.com:rperryng/qmk_firmware.git $QMK_HOME
+  (~/.dotfiles/modules/qmk/install.sh does this for you)"
+
+[ -f "$QMK_HOME/Makefile" ] || fail "QMK_HOME is not a qmk_firmware checkout: $QMK_HOME"
+
+[ -d "$QMK_HOME/keyboards/keyball" ] || fail "keyboards/keyball is missing from $QMK_HOME
+  Keyball is not in upstream QMK; it is vendored into our fork.
+  Check out a branch that includes it (master), or re-vendor it."
+
+[ -d "$QMK_HOME/lib/chibios/os" ] || fail "QMK submodules are not initialised
+  Run: git -C $QMK_HOME submodule update --init --recursive"
+"""
+
+[tasks.build]
+description = "Build the keyball39 firmware"
+depends = ["doctor"]
+run = "qmk compile -kb keyball/keyball39 -km rperryng"
+
+[tasks.build-all]
+description = "Build every target listed in qmk.json"
+depends = ["doctor"]
+run = "qmk userspace-compile"
+
+[tasks.flash]
+description = "Build keyball39 and wait for a half in bootloader (double-tap reset)"
+depends = ["doctor"]
+run = "qmk flash -kb keyball/keyball39 -km rperryng"
