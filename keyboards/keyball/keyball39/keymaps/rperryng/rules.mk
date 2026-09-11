@@ -10,4 +10,10 @@ RGBLIGHT_ENABLE = no
 
 OLED_ENABLE = yes
 
-VIA_ENABLE = yes
+# Ported from the dasbob keymap.
+EXTRAKEY_ENABLE = yes   # Media/volume keys on LA_MEDIA
+CAPS_WORD_ENABLE = yes  # CW_TOGG on LA_NAVI
+TRI_LAYER_ENABLE = yes  # update_tri_layer_state() for LA_NAVI + LA_SYMB_ALT -> LA_NUM_ALT
+
+SRC += oneshot.c
+SRC += swapper.c
