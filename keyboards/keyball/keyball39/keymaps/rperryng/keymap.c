@@ -169,6 +169,7 @@ bool is_oneshot_mod_key(uint16_t keycode) {
 bool is_oneshot_ignored_key(uint16_t keycode) {
     switch (keycode) {
     case MO(LA_NAVI):
+    case MO(LA_SYMB_ALT):
     case KC_LSFT:
     case OS_SHFT:
     case OS_CTRL:
