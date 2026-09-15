@@ -44,3 +44,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Target layer is set to LA_MOUSE at runtime in keyboard_post_init_user.
 #define POINTING_DEVICE_AUTO_MOUSE_ENABLE
+
+// Trackball CPI while SNIPE is held, in units of 100 (default CPI is 500).
+#define SNIPE_CPI 2

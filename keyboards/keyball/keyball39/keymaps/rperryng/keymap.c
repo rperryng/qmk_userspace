@@ -11,13 +11,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ├─────┼─────┼─────┼─────┼─────────────┤                           ├─────┼───┼───┼───┼──────────┤
 //    │  z  │  x  │  c  │  d  │      v      │                           │  k  │ h │ , │ . │    /     │
 //    ├─────┼─────┼─────┼─────┼─────────────┼─────┐   ┌─────────────────┼─────┼───┴───┴───┼──────────┤
-//    │     │     │     │     │ MO(LA_NAVI) │     │   │ MO(LA_SYMB_ALT) │ spc │           │ OS_HYPER │
+//    │     │     │     │     │ MO(LA_NAVI) │SNIPE│   │ MO(LA_SYMB_ALT) │ spc │           │ OS_HYPER │
 //    └─────┴─────┴─────┴─────┴─────────────┴─────┘   └─────────────────┴─────┘           └──────────┘
 [LA_BASE] = LAYOUT_right_ball(
   KC_Q    , KC_W    , KC_F    , KC_P    , KC_B        ,                                 KC_J   , KC_L , KC_U     , KC_Y   , KC_SCLN ,
   KC_A    , KC_R    , KC_S    , KC_T    , KC_G        ,                                 KC_M   , KC_N , KC_E     , KC_I   , KC_O    ,
   KC_Z    , KC_X    , KC_C    , KC_D    , KC_V        ,                                 KC_K   , KC_H , KC_COMMA , KC_DOT , KC_SLSH ,
-  _______ , _______ , _______ , _______ , MO(LA_NAVI) , _______ ,     MO(LA_SYMB_ALT) , KC_SPC ,                            OS_HYPER
+  _______ , _______ , _______ , _______ , MO(LA_NAVI) , SNIPE   ,     MO(LA_SYMB_ALT) , KC_SPC ,                            OS_HYPER
 ),
 
 //    ┌─────┬─────┬─────┬─────┬─────┐               ┌─────┬─────────┬─────────┬─────┬─────┐
@@ -30,7 +30,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    │     │     │     │     │     │     │   │     │     │                         │     │
 //    └─────┴─────┴─────┴─────┴─────┴─────┘   └─────┴─────┘                         └─────┘
 [LA_MOUSE] = LAYOUT_right_ball(
-  _______ , _______ , _______ , _______ , _______ ,                         _______ , _______ , _______ , _______ , _______,
+  _______ , _______ , SCRL_MO , _______ , _______ ,                         _______ , _______ , _______ , _______ , _______,
   _______ , _______ , _______ , _______ , _______ ,                         _______ , MS_BTN1 , MS_BTN2 , _______ , _______,
   _______ , _______ , _______ , _______ , _______ ,                         _______ , _______ , _______ , _______ , _______,
   _______ , _______ , _______ , _______ , _______ , _______ ,     _______ , _______ ,                               _______
@@ -170,6 +170,7 @@ bool is_oneshot_ignored_key(uint16_t keycode) {
     switch (keycode) {
     case MO(LA_NAVI):
     case MO(LA_SYMB_ALT):
+    case SNIPE:
     case KC_LSFT:
     case OS_SHFT:
     case OS_CTRL:
@@ -199,6 +200,17 @@ bool sw_win_grave_active = false;
 // ===============================================================
 // QMK Hooks
 // ===============================================================
+bool is_mouse_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+    case SNIPE:
+        return true;
+    default:
+        // Only while already mousing, so oneshot mods keep the layer up for
+        // shift/cmd-click without activating it during normal typing.
+        return is_oneshot_mod_key(keycode) && layer_state_is(LA_MOUSE);
+    }
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // Handle the reverse/shift modifier using the swapper module
     if (!update_reverse_swapper(
@@ -264,6 +276,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     if (!handled) {
         return false;
+    }
+
+    switch (keycode) {
+        case SNIPE: {
+            static uint8_t saved_cpi;
+            if (record->event.pressed) {
+                saved_cpi = keyball_get_cpi();
+                keyball_set_cpi(SNIPE_CPI);
+            } else {
+                keyball_set_cpi(saved_cpi);
+            }
+            return false;
+        }
     }
 
     return true;

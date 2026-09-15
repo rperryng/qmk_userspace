@@ -42,4 +42,7 @@ enum keycodes {
     SW_ALT,
     SW_REV,
     SW_WIN_GRAVE,
+
+    // hold to lower trackball CPI for precise pointing
+    SNIPE,
 };
