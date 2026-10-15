@@ -47,3 +47,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Trackball CPI while SNIPE is held, in units of 100 (default CPI is 500).
 #define SNIPE_CPI 2
+
+// Bongo cat state, sent from master to the other half.
+#define SPLIT_TRANSACTION_IDS_USER USER_BONGOCAT_SYNC

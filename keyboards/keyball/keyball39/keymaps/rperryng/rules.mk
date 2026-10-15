@@ -17,3 +17,4 @@ TRI_LAYER_ENABLE = yes  # update_tri_layer_state() for LA_NAVI + LA_SYMB_ALT -> 
 
 SRC += oneshot.c
 SRC += swapper.c
+SRC += bongocat.c
