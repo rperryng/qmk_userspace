@@ -50,6 +50,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Trackball CPI while SNIPE is held, in units of 100 (default CPI is 500).
 #define SNIPE_CPI 2
+// CPI after tapping SNIPE_FINE while SNIPE is held. 1 (100) is the sensor floor.
+#define SNIPE_FINE_CPI 1
 
 // Bongo cat state, sent from master to the other half.
 #define SPLIT_TRANSACTION_IDS_USER USER_BONGOCAT_SYNC

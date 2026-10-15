@@ -21,20 +21,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______ , _______ , _______ , _______ , MO(LA_NAVI) , SNIPE ,     MO(LA_SYMB_ALT) , KC_SPC ,                            OS_HYPER
 ),
 
-//    ┌───────┬───────┬─────────┬───────┬─────┐               ┌─────┬─────────┬─────────┬─────────┬─────┐
-//    │       │       │ SCRL_MO │       │     │               │     │         │         │         │     │
-//    ├───────┼───────┼─────────┼───────┼─────┤               ├─────┼─────────┼─────────┼─────────┼─────┤
-//    │ lsft  │ lctl  │  lalt   │ lgui  │     │               │     │ MS_BTN1 │ MS_BTN2 │ MS_BTN3 │     │
-//    ├───────┼───────┼─────────┼───────┼─────┤               ├─────┼─────────┼─────────┼─────────┼─────┤
-//    │       │       │         │       │     │               │     │ MS_BTN1 │ MS_BTN2 │ MS_BTN3 │     │
-//    ├───────┼───────┼─────────┼───────┼─────┼─────┐   ┌─────┼─────┼─────────┴─────────┴─────────┼─────┤
-//    │       │       │         │       │     │     │   │     │     │                             │     │
-//    └───────┴───────┴─────────┴───────┴─────┴─────┘   └─────┴─────┘                             └─────┘
+//    ┌──────┬──────┬─────────┬──────┬────────────┐               ┌─────┬─────────┬─────────┬─────────┬─────┐
+//    │      │      │ SCRL_MO │      │            │               │     │         │         │         │     │
+//    ├──────┼──────┼─────────┼──────┼────────────┤               ├─────┼─────────┼─────────┼─────────┼─────┤
+//    │ lsft │ lctl │  lalt   │ lgui │ SNIPE_FINE │               │     │ MS_BTN1 │ MS_BTN2 │ MS_BTN3 │     │
+//    ├──────┼──────┼─────────┼──────┼────────────┤               ├─────┼─────────┼─────────┼─────────┼─────┤
+//    │      │      │         │      │            │               │     │ MS_BTN1 │ MS_BTN2 │ MS_BTN3 │     │
+//    ├──────┼──────┼─────────┼──────┼────────────┼─────┐   ┌─────┼─────┼─────────┴─────────┴─────────┼─────┤
+//    │      │      │         │      │            │     │   │     │     │                             │     │
+//    └──────┴──────┴─────────┴──────┴────────────┴─────┘   └─────┴─────┘                             └─────┘
 [LA_MOUSE] = LAYOUT_right_ball(
-  _______ , _______ , SCRL_MO , _______ , _______ ,                         _______ , _______ , _______ , _______ , _______,
-  KC_LSFT , KC_LCTL , KC_LALT , KC_LGUI , _______ ,                         _______ , MS_BTN1 , MS_BTN2 , MS_BTN3 , _______,
-  _______ , _______ , _______ , _______ , _______ ,                         _______ , MS_BTN1 , MS_BTN2 , MS_BTN3 , _______,
-  _______ , _______ , _______ , _______ , _______ , _______ ,     _______ , _______ ,                               _______
+  _______ , _______ , SCRL_MO , _______ , _______    ,                         _______ , _______ , _______ , _______ , _______,
+  KC_LSFT , KC_LCTL , KC_LALT , KC_LGUI , SNIPE_FINE ,                         _______ , MS_BTN1 , MS_BTN2 , MS_BTN3 , _______,
+  _______ , _______ , _______ , _______ , _______    ,                         _______ , MS_BTN1 , MS_BTN2 , MS_BTN3 , _______,
+  _______ , _______ , _______ , _______ , _______    , _______ ,     _______ , _______ ,                               _______
 ),
 
 //    ┌─────┬─────┬─────┬─────┬─────┐               ┌─────────┬────────┬────────┬─────────┬─────────┐
@@ -172,6 +172,7 @@ bool is_oneshot_ignored_key(uint16_t keycode) {
     case MO(LA_NAVI):
     case MO(LA_SYMB_ALT):
     case SNIPE:
+    case SNIPE_FINE:
     case KC_LSFT:
     case OS_SHFT:
     case OS_CTRL:
@@ -199,11 +200,17 @@ bool sw_rev_active = false;
 bool sw_win_grave_active = false;
 
 // ===============================================================
+// Snipe
+// ===============================================================
+bool snipe_held = false;
+
+// ===============================================================
 // QMK Hooks
 // ===============================================================
 bool is_mouse_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
     case SNIPE:
+    case SNIPE_FINE:
         return true;
     default:
         // Only while already mousing, so oneshot mods keep the layer up for
@@ -286,8 +293,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 saved_cpi = keyball_get_cpi();
                 pressed_at = timer_read();
+                snipe_held = true;
                 keyball_set_cpi(SNIPE_CPI);
             } else {
+                snipe_held = false;
                 keyball_set_cpi(saved_cpi);
                 // A tap (rather than a hold) manually exits the mouse layer.
                 if (timer_elapsed(pressed_at) < TAPPING_TERM) {
@@ -296,6 +305,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
         }
+        case SNIPE_FINE:
+            // Latches until SNIPE is released, which restores the CPI.
+            if (record->event.pressed && snipe_held) {
+                keyball_set_cpi(SNIPE_FINE_CPI);
+            }
+            return false;
     }
 
     return true;

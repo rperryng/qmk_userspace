@@ -45,4 +45,6 @@ enum keycodes {
 
     // hold to lower trackball CPI for precise pointing
     SNIPE,
+    // while SNIPE is held, drop CPI further until SNIPE is released
+    SNIPE_FINE,
 };
